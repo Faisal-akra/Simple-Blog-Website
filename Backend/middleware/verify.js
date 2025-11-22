@@ -11,9 +11,9 @@ const verifyUser = async (req, res, next) => {
       });
     }
 
-    const { _id } = jwt.verify(token, process.env.SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-    const user = await userModel.findById(_id);
+    const user = await userModel.findById(decoded._id);
 
     if (!user) {
       return res.status(404).json({

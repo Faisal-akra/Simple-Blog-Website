@@ -14,10 +14,10 @@ const blogSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  // image: {
-  //     type: Image,
-  //     required: true
-  // },
+  image: {
+      type: String,
+      required: true
+  },
 
   user: {
     type: mongoose.Schema.Types.ObjectId,

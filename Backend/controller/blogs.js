@@ -10,11 +10,14 @@ const createBlog = async (req, res) => {
       });
     }
 
+    const image = req.file ? req.file.filename: ' ';
+
     const blog = await blogModel.create({
       title: title,
       content: content,
       date: date,
       user: req.user._id,
+      image: image
     });
 
     res.status(200).json({

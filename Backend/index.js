@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", userRoutes);
 app.use("/api/blog", blogRoute);
 
+
 const port = "https://localhost:9000";
 
 app.listen(9000, () => {

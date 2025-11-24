@@ -1,6 +1,6 @@
 const express = require("express");
 const middleWare = require("../middleware/verify.js");
-const createBlog = require("../controller/blogs.js");
+const {createBlog, getAllBelogs} = require("../controller/blogs.js");
 const multer = require("multer");
 const storage = require("../middleware/multer.js")
 const blogRoute = express.Router();
@@ -9,6 +9,7 @@ const upload = multer({storage});
 
 
 blogRoute.post('/createBlog', middleWare, upload.single('image'),  createBlog );
+blogRoute.get('/getAllBelogs', getAllBelogs)
 
 
 module.exports = blogRoute;

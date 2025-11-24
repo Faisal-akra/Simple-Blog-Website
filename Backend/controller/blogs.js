@@ -33,8 +33,6 @@ const createBlog = async (req, res) => {
   }
 };
 
-
-
 const getAllBelogs = async(req, res) => {
   try {
     const getBelogs = await blogModel.find();
@@ -56,4 +54,35 @@ const getAllBelogs = async(req, res) => {
   }
 }
 
-module.exports = {createBlog, getAllBelogs};
+const getSingleBelog = async(req, res) => {
+  try {
+    const {id} = req.params;
+
+    if(!id) {
+      return res.status(404).json({
+        msg:"id is required!"
+      })
+    }
+
+    const checkId = await blogModel.findById(id);
+
+    if(!checkId) {
+      return res.status(404).json({
+        msg: 'id is not match'
+      })
+    }
+
+    res.status(200).json({
+      msg: 'successfully get belog',
+      belog: checkId
+    })
+
+  } catch (error) {
+    console.log(error, "unexpected error!");
+    res.status(404).json({
+      msg: "unexpected error!"
+    })
+  }
+}
+
+module.exports = {createBlog, getAllBelogs, getSingleBelog};

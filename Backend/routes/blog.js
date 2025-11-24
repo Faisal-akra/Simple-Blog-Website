@@ -10,7 +10,7 @@ const upload = multer({storage});
 
 blogRoute.post('/createBlog', middleWare, upload.single('image'),  createBlog );
 blogRoute.get('/getAllBelogs', getAllBelogs);
-blogRoute.get('/getSingleBelog/:id', getSingleBelog);
+blogRoute.get('/getSingleBelog/:id', middleWare, getSingleBelog);
 
 
 module.exports = blogRoute;

@@ -7,6 +7,7 @@ const blogRoute = require("./routes/blog.js");
 app.use(express.json());
 dotenv.config();
 connectDB();
+app.use(express.urlencoded({ extended: true })); 
 app.get("/", (req, res) => {
   res.send("server is runnig");
 });

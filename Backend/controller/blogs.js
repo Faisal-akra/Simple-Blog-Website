@@ -10,14 +10,14 @@ const createBlog = async (req, res) => {
       });
     }
 
-    const image = req.file ? req.file.filename: ' ';
+    const image = req.file ? req.file.filename : " ";
 
     const blog = await blogModel.create({
       title: title,
       content: content,
       date: date,
       user: req.user._id,
-      image: image
+      image: image,
     });
 
     res.status(200).json({
@@ -33,58 +33,89 @@ const createBlog = async (req, res) => {
   }
 };
 
-const getAllBelogs = async(req, res) => {
+const getAllBelogs = async (req, res) => {
   try {
     const getBelogs = await blogModel.find();
 
-    if(getBelogs.length === 0) {
+    if (getBelogs.length === 0) {
       return res.status(404).json({
-        msg: 'no belogs founded!'
-      })
+        msg: "no belogs founded!",
+      });
     }
     res.status(200).json({
       msg: "belogs fetch successfully",
-      bel: getBelogs
-    })
+      bel: getBelogs,
+    });
   } catch (error) {
-    console.log(error, 'cannot get belogs unexpected error');
+    console.log(error, "cannot get belogs unexpected error");
     res.status(404).json({
-      msg: "cannot get belogs unexpected error"
-    })
+      msg: "cannot get belogs unexpected error",
+    });
   }
-}
+};
 
-const getSingleBelog = async(req, res) => {
+const getSingleBelog = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
-    if(!id) {
+    if (!id) {
       return res.status(404).json({
-        msg:"id is required!"
-      })
+        msg: "id is required!",
+      });
     }
 
     const checkId = await blogModel.findById(id);
 
-    if(!checkId) {
+    if (!checkId) {
       return res.status(404).json({
-        msg: 'id is not match'
-      })
+        msg: "id is not match",
+      });
     }
 
     res.status(200).json({
-      msg: 'successfully get belog',
-      belog: checkId
-    })
-
+      msg: "successfully get belog",
+      belog: checkId,
+    });
   } catch (error) {
     console.log(error, "unexpected error!");
     res.status(404).json({
-      msg: "unexpected error!"
-    })
+      msg: "unexpected error!",
+    });
   }
-}
+};
 
+const updateBelog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const newData = req.body;
 
+    if (!id) {
+      return res.status(404).json({
+        msg: "id is required!",
+      });
+    }
 
-module.exports = {createBlog, getAllBelogs, getSingleBelog};
+    const update = await blogModel.findByIdAndUpdate(id, newData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!update) {
+      return res.status(404).json({
+        msg: "user is not found!",
+      });
+    }
+
+    res.status(200).json({
+      msg: "blog is updated successfully",
+      updatedBelog: update,
+    });
+  } catch (error) {
+    console.log(error, "unexpected error!");
+    res.status(404).json({
+      msg: "unexpected error!",
+    });
+  }
+};
+
+module.exports = { createBlog, getAllBelogs, getSingleBelog, updateBelog };

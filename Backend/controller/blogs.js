@@ -118,4 +118,36 @@ const updateBelog = async (req, res) => {
   }
 };
 
-module.exports = { createBlog, getAllBelogs, getSingleBelog, updateBelog };
+const deletebelog = async(req, res) => {
+  try {
+    const {id} = req.params;
+
+    if(!id) {
+      return res.status(404).json({
+        msg: 'id is required!'
+      })
+    }
+
+    const blog = await blogModel.findById(id);
+
+    const blogDelete = await blogModel.findByIdAndDelete(id, blog);
+
+    if(!blogDelete) {
+      return  res.status(404).json({
+        msg: 'blog is not founded!'
+      })
+    }
+
+    res.status(200).json({
+      msg: 'belog is deleted successfully',
+      deletedBelog: blogDelete
+    })
+
+  } catch (error) {
+    console.log(error, 'unexpected error!');
+    res.status(404).json({
+      msg: "unexpected error!"
+    })
+  }
+}
+module.exports = { createBlog, getAllBelogs, getSingleBelog, updateBelog, deletebelog };

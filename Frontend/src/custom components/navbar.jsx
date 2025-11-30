@@ -7,7 +7,18 @@ function Navbar() {
   return (
     <nav className="backdrop-blur-md bg-white/30 shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* DESKTOP MENU */}
+
+        
+        <div className="flex items-center">
+          <a
+            href="/"
+            className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+          >
+            Dashboard
+          </a>
+        </div>
+
+       
         <div className="hidden md:flex items-center gap-6 text-gray-800 font-medium">
           <a href="/createBlog" className="hover:text-blue-600 transition">
             Create Blog
@@ -21,10 +32,8 @@ function Navbar() {
           <a href="/deleteBlog" className="hover:text-blue-600 transition">
             Delete Blog
           </a>
-        </div>
 
-        {/* DESKTOP BUTTONS */}
-        <div className="hidden md:flex items-center gap-4">
+         
           <a
             href="/register"
             className="px-4 py-2 rounded-xl border border-blue-500 text-blue-600 hover:bg-blue-50 transition"
@@ -48,9 +57,19 @@ function Navbar() {
         </button>
       </div>
 
-      {/* MOBILE DROPDOWN MENU */}
+      {/* MOBILE MENU */}
       {open && (
         <div className="md:hidden px-6 pb-4 flex flex-col gap-4 text-gray-800 font-medium">
+          
+          {/* Left-side Dashboard */}
+          <a
+            href="/"
+            className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+          >
+            Dashboard
+          </a>
+
+          {/* Other links */}
           <a href="/createBlog" className="hover:text-blue-600 transition">
             Create Blog
           </a>
@@ -64,6 +83,7 @@ function Navbar() {
             Delete Blog
           </a>
 
+          {/* Auth buttons */}
           <div className="pt-2 flex gap-3">
             <a
               href="/register"

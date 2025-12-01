@@ -8,23 +8,42 @@ function Register() {
     password: "",
   });
 
+  const [message, setMessage] = useState("");
+
   const handleData = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData);
   };
 
-  const formSubmit = async(e) => {
+  const formSubmit = async (e) => {
     e.preventDefault();
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-    });
 
+    try {
+      const res = await fetch("http://localhost:9000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
 
+      const data = await res.json();
 
+      if (res.ok) {
+        setMessage(data.msg);
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+        });
+      }else{
+      setMessage(data.msg);
 
+      }
+
+    } catch (error) {
+      console.log(error);
+      setMessage("something went wrong");
+    }
   };
 
   return (
@@ -100,9 +119,19 @@ function Register() {
 
         <p className="text-center mt-4 text-gray-500 dark:text-gray-400 text-sm">
           Already have an account?{" "}
-         <Link to="/login" className="text-indigo-600 hover:underline">Login</Link>
+          <Link to="/login" className="text-indigo-600 hover:underline">
+            Login
+          </Link>
         </p>
       </form>
+
+      {message && (
+        <div
+          className={`mt-4 text-center text-sm p-3  w-[300px] bg-blue-400 rounded-md`}
+        >
+          {message}
+        </div>
+      )}
     </div>
   );
 }

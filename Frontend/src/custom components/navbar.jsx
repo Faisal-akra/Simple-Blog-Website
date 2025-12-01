@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -7,45 +8,40 @@ function Navbar() {
   return (
     <nav className="backdrop-blur-md bg-white/30 shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-
-        
         <div className="flex items-center">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
           >
             Dashboard
-          </a>
+          </Link>
         </div>
 
-       
         <div className="hidden md:flex items-center gap-6 text-gray-800 font-medium">
-          <a href="/createBlog" className="hover:text-blue-600 transition">
-            Create Blog
-          </a>
-          <a href="/getAll-Blogs" className="hover:text-blue-600 transition">
-            All Blogs
-          </a>
-          <a href="/updateBlog" className="hover:text-blue-600 transition">
-            Update Blog
-          </a>
-          <a href="/deleteBlog" className="hover:text-blue-600 transition">
-            Delete Blog
-          </a>
+          <Link to="/createBlog" className="hover:text-blue-600 transition">
+            Create-Blog
+          </Link>
+          <Link to="/updateBlog" className="hover:text-blue-600 transition">
+            Update-Blog
+          </Link>
 
-         
-          <a
-            href="/register"
+          <Link to="getAll-Blogs">All-Blogs</Link>
+          <Link to="/deleteBlog" className="hover:text-blue-600 transition">
+            Delete-Blog
+          </Link>
+
+          <Link
+            to="/register"
             className="px-4 py-2 rounded-xl border border-blue-500 text-blue-600 hover:bg-blue-50 transition"
           >
             Register
-          </a>
-          <a
-            href="/login"
+          </Link>
+          <Link
+            to="/login"
             className="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition"
           >
             Login
-          </a>
+          </Link>
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -60,7 +56,6 @@ function Navbar() {
       {/* MOBILE MENU */}
       {open && (
         <div className="md:hidden px-6 pb-4 flex flex-col gap-4 text-gray-800 font-medium">
-          
           {/* Left-side Dashboard */}
           <a
             href="/"

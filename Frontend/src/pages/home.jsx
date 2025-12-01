@@ -1,7 +1,7 @@
 import Navbar from "../custom components/navbar";
 import blogImg from "../assets/dashboard/blog.png";
 import storyImg from "../assets/dashboard/story.png";
-import postImg from "../assets/dashboard/post.png"
+import postImg from "../assets/dashboard/post.png";
 
 function Dashboard() {
   return (

@@ -28,7 +28,7 @@ const userRegister = async (req, res) => {
     });
 
     res.status(200).json({
-      msg: "user is registered successfully",
+      msg: "user is registered successfully redirect login page...",
     });
   } catch (error) {
     console.log("user is not register");
@@ -66,7 +66,7 @@ const userLogin = async (req, res) => {
     });
 
     res.status(200).json({
-      msg: `user is login successfully`,
+      msg: `user is login successfully redirect dashboard...`,
       token: token,
       user: {
         id: isExist._id,

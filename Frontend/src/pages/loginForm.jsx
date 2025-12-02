@@ -1,158 +1,122 @@
+import { useState } from "react";
 import Navbar from "../custom components/navbar";
-
-
+import { Link, useNavigate } from "react-router-dom";
 function Login() {
-    return(
-        <div>
-            <div>
-                <Navbar/>
-            </div>
-            <h1>Login-Form</h1>
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const handleData = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const formSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("http://localhost:9000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage(data.msg);
+        setFormData({
+          email: "",
+          password: "",
+        });
+
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      } else {
+        setMessage(data.msg);
+      }
+    } catch (error) {
+      console.log(error);
+      setMessage("something went wrong");
+    }
+  };
+
+  return (
+    <div>
+      <Navbar />
+      <form
+        onSubmit={formSubmit}
+        className="max-w-md mx-auto mt-10 p-8 bg-white rounded-2xl shadow-lg sm:p-10 dark:bg-gray-800"
+      >
+        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
+          Login Your Account
+        </h2>
+
+        <div className="space-y-5">
+          <div>
+            <label
+              className="block text-gray-700 dark:text-gray-300 mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email || ""}
+              onChange={handleData}
+              className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+            />
+          </div>
+
+          <div>
+            <label
+              className="block text-gray-700 dark:text-gray-300 mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password || ""}
+              onChange={handleData}
+              className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+            />
+          </div>
         </div>
-    )
+
+        <button
+          type="submit"
+          className="w-full mt-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-md hover:bg-indigo-700 transition-colors duration-300"
+        >
+          Submit
+        </button>
+
+        <p className="text-center mt-4 text-gray-500 dark:text-gray-400 text-sm">
+          You dint't have an account?{" "}
+          <Link to="/register" className="text-indigo-600 hover:underline">
+            Register
+          </Link>
+        </p>
+      </form>
+
+      {message && (
+        <div
+          className={`mt-4 text-center text-sm p-3  w-[300px] bg-blue-400 rounded-md`}
+        >
+          {message}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Login;
-
-
-
-
-
-
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { NavLink } from "react-router-dom";
-
-// function Register() {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//   });
-
-//   const navigate = useNavigate();
-//   const [message, setMessage] = useState("");
-
-//   const handleData = (e) => {
-//     const { name, value } = e.target;
-//     setFormData({ ...formData, [name]: value });
-//   };
-
-//   const handleRegister = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       const res = await fetch(
-//         "http://localhost:7000/api/auth/register",
-//         {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           credentials: "include",
-//           body: JSON.stringify(formData),
-//         }
-//       );
-
-//       const data = await res.json();
-
-//       if (res.ok) {
-//         setMessage(data.msg);
-//         setFormData({
-//           name: "",
-//           email: "",
-//           password: "",
-//         });
-
-//         setTimeout(() => {
-//           navigate("/login");
-//         }, 4000);
-//       } else {
-//         setMessage(data.msg);
-//       }
-//     } catch (error) {
-//       console.log(error, "error");
-//       setMessage("server error");
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <div className="absolute top-4 right-4 w-[300px]">
-//         <div className="flex flex-col items-end gap-2">
-//           <p className="text-right text-sm">Already registered?</p>
-//           <NavLink
-//             to="/login"
-//             className="border bg-blue-300 rounded-2xl px-4 py-2 hover:bg-blue-300 transition text-center w-[200px]"
-//           >
-//             Login
-//           </NavLink>
-//         </div>
-//       </div>
-//       <div className="flex items-center justify-center min-h-screen text-center text-xl">
-//         <div className="flex flex-wrap flex-col justify-center gap-16 bg-blue-50 h-[500px] w-[500px] border border-solid">
-//           <div>
-//             <h1>Registration Form</h1>
-//           </div>
-
-//           <div className="flex flex-col gap-5 justify-center items-center">
-//             <form onSubmit={handleRegister}>
-//               <input
-//                 className="border border-black text-center rounded-2xl w-[300px] mb-4 p-2"
-//                 type="text"
-//                 name="name"
-//                 value={formData.name}
-//                 onChange={handleData}
-//                 required
-//                 placeholder="Enter your name"
-//               />
-
-//               <input
-//                 className="border border-black text-center rounded-2xl w-[300px] mb-4 p-2"
-//                 type="email"
-//                 name="email"
-//                 value={formData.email}
-//                 onChange={handleData}
-//                 required
-//                 placeholder="Enter your email"
-//               />
-
-//               <input
-//                 className="border border-black text-center rounded-2xl w-[300px] mb-4 p-2"
-//                 type="password"
-//                 name="password"
-//                 value={formData.password}
-//                 onChange={handleData}
-//                 required
-//                 placeholder="Enter your Password"
-//               />
-
-//               <div>
-//                 <button
-//                   className="ml-auto mr-auto border w-[300px] bg-blue-200 rounded-2xl p-2 hover:bg-blue-300 transition"
-//                   type="submit"
-//                 >
-//                   Submit
-//                 </button>
-//               </div>
-//             </form>
-
-//             {message && (
-//               <div
-//                 className={`mt-4 text-center text-sm p-3  w-[300px] bg-blue-400 rounded-md }`}
-//               >
-//                 {message}
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-// export default Register;

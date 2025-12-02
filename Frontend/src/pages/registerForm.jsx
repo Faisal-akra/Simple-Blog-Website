@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "../custom components/navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -9,7 +9,7 @@ function Register() {
   });
 
   const [message, setMessage] = useState("");
-
+  const navigate = useNavigate();
   const handleData = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -35,11 +35,13 @@ function Register() {
           email: "",
           password: "",
         });
-      }else{
-      setMessage(data.msg);
 
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } else {
+        setMessage(data.msg);
       }
-
     } catch (error) {
       console.log(error);
       setMessage("something went wrong");

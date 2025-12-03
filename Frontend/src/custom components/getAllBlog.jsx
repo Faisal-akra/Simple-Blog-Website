@@ -2,6 +2,9 @@ import Navbar from "./navbar";
 
 
 function GetAllBlogs() {
+
+
+
     return(
         <div>
             <div>
